@@ -1,0 +1,10 @@
+indent-width = 2
+
+[lint]
+ignore = [
+  "F401", # Unused import
+]
+
+[format]
+quote-style = "double"
+indent-style = "space"
