@@ -19,12 +19,14 @@ class TestTextProcessor(unittest.TestCase):
   You will see an assertion error AssertionError: None != 'hello! this is a sample text 1. contact [130 chars]com.'. 
   The error will go away once you implement the function.
   """
-
+  # 1
   def test_convert_to_lowercase(self):
     self.assertEqual(self.sample_tp.convert_to_lowercase(), "hello! this is a sample text 1. contact me at user@example.com. python is awesome. the python programming language is widely used. #python #nlp check out https://example.com.")
     self.assertEqual(self.empty_tp.convert_to_lowercase(), "")
+    self.assertEqual(TP("\N").convert_to_lowercase(), "\\n")
     self.assertEqual(TP("123456789"), "123456789")
 
+  # 2
   def test_extract_emails(self):
     self.assertListEqual(self.sample_tp.extract_emails(), ["user@example.com"])
     self.assertListEqual(self.empty_tp.extract_emails(), [])
@@ -34,24 +36,42 @@ class TestTextProcessor(unittest.TestCase):
       ["this@might.be", "this+also@might-be.com"]
     ])
 
+  # 3
   def test_count_hashtags(self):
     self.assertEqual(self.sample_tp.count_hashtags(), 2)
     self.assertEqual(self.empty_tp.count_hashtags(), 0)
     self.assertEqual(TP("#Python #Python #NotPython #Python #python").count_hashtags(), 2) # 2 or 3?
-    self.assertEqual(TP("#"), 0)
-    self.assertEqual(TP("# notahashtag"), 0)
-    self.assertEqual(TP("#. Also not a hashtag"), 0)
-    self.assertEqual(TP("#; Also not a hashtag"), 0)
-    self.assertEqual(TP("#hash; is an hashtag"), 1)
-
-    
-
+    self.assertEqual(TP("#").count_hashtags(), 0)
+    self.assertEqual(TP("# notahashtag").count_hashtags(), 0)
+    self.assertEqual(TP("#. Also not a hashtag").count_hashtags(), 0)
+    self.assertEqual(TP("#; Also not a hashtag").count_hashtags(), 0)
+    self.assertEqual(TP("#hash; is an hashtag").count_hashtags(), 1)
+    self.assertEqual(TP("This #1 is an hashtag").count_hashtags(), 1)
+  
+  # 4
   def test_extract_links(self):
-    pass
-
+    # https://mathiasbynens.be/demo/url-regex
+    self.assertListEqual(self.sample_tp.extract_links(), ["https://example.com"])
+    self.assertListEqual(self.empty_tp.extract_links(), [])
+    self.assertListEqual(TP("This is a link: https://example.com. This is another https://example.com; shouldThis.count ? ftp://foo.bar/baz? and what about 192.1.28.2:25? and http://1.1.1.1 ? but what about http://0.0.0.0 ? // alone? and foo.com? and what about htt\np://google.com and http://thisisnots.com:25 ? url matching is hard").extract_links(), ["https://example.com", "https://example.com", "ftp://foo.bar/baz?", "http://1.1.1.1", "http://thisisnots.com:25"])
+  
+  # 5
   def test_avg_word_length(self):
-    pass
+    # skipping sample cause it's too long
+    self.assertAlmostEqual(self.empty_tp.avg_word_length(), 0)
+    self.assertAlmostEqual(TP(" ").avg_word_length(), 0)
+    self.assertAlmostEqual(TP("This is a test").avg_word_length(), (4 + 2 + 1 + 4) / 4)
+    self.assertAlmostEqual(TP("This is a test.").avg_word_length(), (4 + 2 + 1 + 4) / 4)
+    self.assertAlmostEqual(TP("This is a test;different word").avg_word_length(), (4 + 2 + 1 + 4 + 9 + 4) / 6)
+    self.assertAlmostEqual(TP(" This is a test.").avg_word_length(), (4 + 2 + 1 + 4) / 4)
+    self.assertAlmostEqual(TP("This is a test. 123456").avg_word_length(), (4 + 2 + 1 + 4 + 6) / 5)
+    self.assertAlmostEqual(TP("This-is-the-same-word").avg_word_length(), 21)
+    self.assertAlmostEqual(TP("föregår ett r").avg_word_length(), (7 + 3 + 1) / 3)
+    self.assertAlmostEqual(TP("S.P.E.C.T.R.E").avg_word_length(), 7)
+    self.assertAlmostEqual(TP("Mom's spaghetti").avg_word_length(), (4+9)/2)
+    self.assertAlmostEqual(TP('"cogito, ergo sum" - René Descartes').avg_word_length(), (6 + 4 + 3 + 4 + 9) / 5)
 
+  # 6
   def test_top_words(self):
     pass
 
