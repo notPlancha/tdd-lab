@@ -9,6 +9,7 @@ version = "0.1.0"
 coverage = "coverage"
 format = "ruff format"
 lint = "ruff check"
+task2 = "python ./TDD_lab_student/Task2_unittest.py"
 
 [dependencies]
 python = ">=3.13.2,<3.14"
