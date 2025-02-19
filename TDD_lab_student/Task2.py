@@ -3,7 +3,8 @@ from collections import Counter
 
 
 class TextProcessor:
-  def __init__(self, text):
+  def __init__(self, text: str):
+    # text isn't expecting any other type
     self.text = text
 
   """
@@ -14,7 +15,7 @@ class TextProcessor:
     """Convert all words to lowercase."""
     pass
 
-  def extract_emails(self) -> list:
+  def extract_emails(self) -> list[str]:
     """Find and extract all email addresses from the document."""
     pass
 
@@ -22,7 +23,7 @@ class TextProcessor:
     """Find and count all unique hashtags (words or phrases starting with #) used in the document."""
     pass
 
-  def extract_links(self) -> list:
+  def extract_links(self) -> list[str]:
     """Identify and list all URLs mentoned in the text."""
     pass
 
