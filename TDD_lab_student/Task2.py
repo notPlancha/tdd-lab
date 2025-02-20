@@ -10,12 +10,13 @@ class TextProcessor:
   # 1
   def convert_to_lowercase(self) -> str:
     """Convert all words to lowercase."""
-    pass
+    return self.text.lower()
 
   # 2
   def extract_emails(self) -> list[str]:
     """Find and extract all email addresses from the document."""
-    pass
+    # https://emailregex.com/
+    return re.findall(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", self.text)
 
   # 3
   def count_hashtags(self) -> int:

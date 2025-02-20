@@ -24,9 +24,14 @@ class TestTextProcessor(unittest.TestCase):
     self.assertListEqual(self.sample_tp.extract_emails(), ["user@example.com"])
     self.assertListEqual(self.empty_tp.extract_emails(), [])
     self.assertListEqual(TP(
-      "This@is@not@an@email address. but this@might.be; this+also@might-be.com.But not the dot; email @ validity.ishard",
+      "This@is@not@an@email address. but this@might.be; this+also@might-be.com.But not the dot; email @ validity.ishard; finally this@is.n ot",
     ).extract_emails(), [
       ["this@might.be", "this+also@might-be.com"]
+    ])
+    self.assertListEqual(TP(
+      "Really@really@reaaally.hard. And impossible_to@test. ",
+    ).extract_emails(), [
+      ["really@reaaally.hard"]
     ])
 
   # 3
