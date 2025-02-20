@@ -12,13 +12,6 @@ class TestTextProcessor(unittest.TestCase):
   def setUp(self):
     self.sample_tp = TP("Hello! This is a sample text 1. Contact me at user@example.com. Python is awesome. The Python programming language is widely used. #Python #NLP Check out https://example.com.")
     self.empty_tp = TP("")
-    
-  """
-  One example case test case is provided below but the implmentation of the function is missing to get you
-  going with the TDD. Please note the test case will fail without implementation of the function in task2.py. 
-  You will see an assertion error AssertionError: None != 'hello! this is a sample text 1. contact [130 chars]com.'. 
-  The error will go away once you implement the function.
-  """
   # 1
   def test_convert_to_lowercase(self):
     self.assertEqual(self.sample_tp.convert_to_lowercase(), "hello! this is a sample text 1. contact me at user@example.com. python is awesome. the python programming language is widely used. #python #nlp check out https://example.com.")

@@ -3,4 +3,4 @@
 branch = True
 omit = */__init__.py
 [html]
-directory = TDD_lab_student
+directory = ./TDD_lab_student/coverage_report/

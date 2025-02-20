@@ -10,8 +10,8 @@ task2 = "python ./TDD_lab_student/Task2_unittest.py"
 coverage = "coverage run -m unittest ./TDD_lab_student/*; coverage report"
 
 [tasks.report]
-cmd = "coverage report"
-depends-on = ["coverage"] # this isnt running if this isnt sucessful, change that
+cmd = "coverage html"
+depends-on = ["coverage"]
 
 [dependencies]
 python = ">=3.13.2,<3.14"
