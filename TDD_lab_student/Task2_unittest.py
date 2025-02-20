@@ -71,21 +71,30 @@ class TestTextProcessor(unittest.TestCase):
     self.assertAlmostEqual(TP("Mom's spaghetti").avg_word_length(), (4+9)/2)
     self.assertAlmostEqual(TP('"cogito, ergo sum" - René Descartes').avg_word_length(), (6 + 4 + 3 + 4 + 9) / 5)
 
-  # 6
+  # 6 TODO
   def test_top_words(self):
     pass
-
+  
+  # 7
   def test_longest_word(self):
-    pass
-
+    self.assertEqual(self.sample_tp.longest_word(), "https://example.com")
+    self.assertEqual(self.empty_tp.longest_word(), None)
+    self.assertEqual(TP(" "), None)
+    
+  # 8
   def test_identify_sentences(self):
-    pass
+    self.assertEqual(self.sample_tp.identify_sentences(), ["Python is awesome.", "The Python programming language is widely used.", "#Python #NLP Check out https://example.com."])
 
+  # 9 TODO
   def test_remove_special(self):
     pass
-
+  
+  # 10
   def test_num_to_words(self):
-    pass
+    self.assertEqual(self.sample_tp.num_to_words(), "Hello! This is a sample text one. Contact me at user@example.com. Python is awesome. The Python programming language is widely used. #Python #NLP Check out https://example.com.")
+    self.assertEqual(TP("This is sample text 1, 2, 3"), "This is sample text one, two, three")
+    self.assertEqual(TP("1 2 3 4 5 6 7 8 9 10.").num_to_words(), "one two three four five six seven eight nine ten.")
+    self.assertEqual(TP("10120"), "tenonetwo0")
 
 
 if __name__ == "__main__":
