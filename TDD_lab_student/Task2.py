@@ -16,21 +16,28 @@ class TextProcessor:
   def extract_emails(self) -> list[str]:
     """Find and extract all email addresses from the document."""
     # https://emailregex.com/
-    return re.findall(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", self.text)
+    return re.findall(r"[\w_.+-]+@[\w-]+\.\w{2,}", self.text)
 
   # 3
   def count_hashtags(self) -> int:
     """Find and count all unique hashtags (words or phrases starting with #) used in the document."""
-    pass
+    l = re.findall(r"\#[\w_]+", self.text.lower())
+    return len(set(l))
 
   # 4
   def extract_links(self) -> list[str]:
     """Identify and list all URLs mentioned in the text."""
-    pass
+    # https://mathiasbynens.be/demo/url-regex
+    # https://urlregex.com/
+    # https://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml
+    # https://github.com/mccutchen/twitter-url-regexen/blob/master/twitter_regex.py
+    w = r"[a-zA-Z0-9]"
+    return re.findall(fr"[{w}\+\.\-]{{2,}}://(www\.)?[\S]+[\w&=#/]", self.text)
 
   # 5
   def avg_word_length(self) -> float:
     """Calculate the average word length in the document."""
+    # we can split by spaces but that doesn't account for punctuation
     pass
 
   # 6 TODO

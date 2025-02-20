@@ -1,4 +1,8 @@
+.DS_Store
+
+# Temp files
 temp/
+temp.*
 
 # Coverage
 TDD_lab_student/coverage_report/

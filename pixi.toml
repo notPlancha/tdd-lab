@@ -6,8 +6,8 @@ platforms = ["win-64"]
 [tasks]
 format = "ruff format"
 lint = "ruff check"
-task2 = "python ./TDD_lab_student/Task2_unittest.py"
 task1 = "python ./TDD_lab_student/Task1_Unittest_rover.py"
+task2 = "python ./TDD_lab_student/Task2_unittest.py"
 coverage = "coverage run -m unittest ./TDD_lab_student/*; coverage report"
 
 [tasks.report]

@@ -7,6 +7,7 @@ Student shall write their names here
 import unittest
 from Task2 import TextProcessor as TP
 
+# TODO change to [subtests](https://docs.python.org/3/library/unittest.html#subtests)
 
 class TestTextProcessor(unittest.TestCase):
   def setUp(self):
@@ -24,9 +25,9 @@ class TestTextProcessor(unittest.TestCase):
     self.assertListEqual(self.sample_tp.extract_emails(), ["user@example.com"])
     self.assertListEqual(self.empty_tp.extract_emails(), [])
     self.assertListEqual(TP(
-      "This@is@not@an@email address. but this@might.be; this+also@might-be.com.But not the dot; email @ validity.ishard; finally this@is.n ot",
+      "This@is@not@an@email address. but this@might.be; also_this@is.email this+also@might-be.com.But not the dot; email @ validity.ishard; finally this@is.n ot",
     ).extract_emails(), [
-      ["this@might.be", "this+also@might-be.com"]
+      ["this@might.be", "also_this@is.email", "this+also@might-be.com"]
     ])
     self.assertListEqual(TP(
       "Really@really@reaaally.hard. And impossible_to@test. ",
@@ -36,26 +37,29 @@ class TestTextProcessor(unittest.TestCase):
 
   # 3
   def test_count_hashtags(self):
+    # https://en.wikipedia.org/wiki/Hashtag#Format
     self.assertEqual(self.sample_tp.count_hashtags(), 2)
     self.assertEqual(self.empty_tp.count_hashtags(), 0)
-    self.assertEqual(TP("#Python #Python #NotPython #Python #python").count_hashtags(), 2) # 2 or 3?
+    self.assertEqual(TP("#Python #Python #NotPython #Python #python").count_hashtags(), 2)
     self.assertEqual(TP("#").count_hashtags(), 0)
     self.assertEqual(TP("# notahashtag").count_hashtags(), 0)
     self.assertEqual(TP("#. Also not a hashtag").count_hashtags(), 0)
     self.assertEqual(TP("#; Also not a hashtag").count_hashtags(), 0)
     self.assertEqual(TP("#hash; is an hashtag").count_hashtags(), 1)
     self.assertEqual(TP("This #1 is an hashtag").count_hashtags(), 1)
+    self.assertEqual(TP("#_thisAlsoCounts #And_This #__Andthis").count_hashtags(), 3)
   
   # 4
   def test_extract_links(self):
     # https://mathiasbynens.be/demo/url-regex
     self.assertListEqual(self.sample_tp.extract_links(), ["https://example.com"])
     self.assertListEqual(self.empty_tp.extract_links(), [])
-    self.assertListEqual(TP("This is a link: https://example.com. This is another https://example.com; shouldThis.count ? ftp://foo.bar/baz? and what about 192.1.28.2:25? and http://1.1.1.1 ? but what about http://0.0.0.0 ? // alone? and foo.com? and what about htt\np://google.com and http://thisisnots.com:25 ? url matching is hard").extract_links(), ["https://example.com", "https://example.com", "ftp://foo.bar/baz?", "http://1.1.1.1", "http://thisisnots.com:25"])
+    self.assertListEqual(TP("This is a link: https://example.com. This is another https://example.com; shouldThis.count ? ftp://foo.bar/baz? but http://google.com/?q=hello and what about 192.1.28.2:25? and http://1.1.1.1 ? // alone? and foo.com? and what about htt\np://google.com and http://thisisnots.com:25 ? url matching is hard.").extract_links(), ["https://example.com", "https://example.com", "ftp://foo.bar/baz", "http://google.com/?q=hello", "http://1.1.1.1", "http://thisisnots.com:25"])
   
   # 5
   def test_avg_word_length(self):
     # skipping sample cause it's too long
+    # https://en.wikipedia.org/wiki/Word
     self.assertAlmostEqual(self.empty_tp.avg_word_length(), 0)
     self.assertAlmostEqual(TP(" ").avg_word_length(), 0)
     self.assertAlmostEqual(TP("This is a test").avg_word_length(), (4 + 2 + 1 + 4) / 4)
