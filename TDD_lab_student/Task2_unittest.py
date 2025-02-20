@@ -12,18 +12,11 @@ class TestTextProcessor(unittest.TestCase):
   def setUp(self):
     self.sample_tp = TP("Hello! This is a sample text 1. Contact me at user@example.com. Python is awesome. The Python programming language is widely used. #Python #NLP Check out https://example.com.")
     self.empty_tp = TP("")
-    
-  """
-  One example case test case is provided below but the implmentation of the function is missing to get you
-  going with the TDD. Please note the test case will fail without implementation of the function in task2.py. 
-  You will see an assertion error AssertionError: None != 'hello! this is a sample text 1. contact [130 chars]com.'. 
-  The error will go away once you implement the function.
-  """
   # 1
   def test_convert_to_lowercase(self):
     self.assertEqual(self.sample_tp.convert_to_lowercase(), "hello! this is a sample text 1. contact me at user@example.com. python is awesome. the python programming language is widely used. #python #nlp check out https://example.com.")
     self.assertEqual(self.empty_tp.convert_to_lowercase(), "")
-    self.assertEqual(TP("\N").convert_to_lowercase(), "\\n")
+    self.assertEqual(TP(r"\N").convert_to_lowercase(), r"\n") # TODO dont know if this if right
     self.assertEqual(TP("123456789"), "123456789")
 
   # 2
@@ -31,9 +24,14 @@ class TestTextProcessor(unittest.TestCase):
     self.assertListEqual(self.sample_tp.extract_emails(), ["user@example.com"])
     self.assertListEqual(self.empty_tp.extract_emails(), [])
     self.assertListEqual(TP(
-      "This@is@not@an@email address. but this@might.be; this+also@might-be.com.But not the dot; email @ validity.ishard",
+      "This@is@not@an@email address. but this@might.be; this+also@might-be.com.But not the dot; email @ validity.ishard; finally this@is.n ot",
     ).extract_emails(), [
       ["this@might.be", "this+also@might-be.com"]
+    ])
+    self.assertListEqual(TP(
+      "Really@really@reaaally.hard. And impossible_to@test. ",
+    ).extract_emails(), [
+      ["really@reaaally.hard"]
     ])
 
   # 3
@@ -71,21 +69,30 @@ class TestTextProcessor(unittest.TestCase):
     self.assertAlmostEqual(TP("Mom's spaghetti").avg_word_length(), (4+9)/2)
     self.assertAlmostEqual(TP('"cogito, ergo sum" - René Descartes').avg_word_length(), (6 + 4 + 3 + 4 + 9) / 5)
 
-  # 6
+  # 6 TODO
   def test_top_words(self):
     pass
-
+  
+  # 7
   def test_longest_word(self):
-    pass
-
+    self.assertEqual(self.sample_tp.longest_word(), "https://example.com")
+    self.assertEqual(self.empty_tp.longest_word(), None)
+    self.assertEqual(TP(" "), None)
+    
+  # 8
   def test_identify_sentences(self):
-    pass
+    self.assertEqual(self.sample_tp.identify_sentences(), ["Python is awesome.", "The Python programming language is widely used.", "#Python #NLP Check out https://example.com."])
 
+  # 9 TODO
   def test_remove_special(self):
     pass
-
+  
+  # 10
   def test_num_to_words(self):
-    pass
+    self.assertEqual(self.sample_tp.num_to_words(), "Hello! This is a sample text one. Contact me at user@example.com. Python is awesome. The Python programming language is widely used. #Python #NLP Check out https://example.com.")
+    self.assertEqual(TP("This is sample text 1, 2, 3"), "This is sample text one, two, three")
+    self.assertEqual(TP("1 2 3 4 5 6 7 8 9 10.").num_to_words(), "one two three four five six seven eight nine ten.")
+    self.assertEqual(TP("10120"), "tenonetwo0")
 
 
 if __name__ == "__main__":
