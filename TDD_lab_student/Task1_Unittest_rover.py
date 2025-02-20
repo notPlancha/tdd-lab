@@ -1,7 +1,7 @@
 """
 Student shall write their names here
-    1. Student 1
-    2. Student 2
+    1. Yana Zlatanova
+    2. André Plancha Fernandes
 """
 
 import unittest
@@ -30,6 +30,136 @@ class test_string(unittest.TestCase):
     self.assertEqual(self.rv.enrove("b"), "bob")
 
   # You can continue writing your test cases here based on the assignment description
+ 
+  def test_null_empty_cases(self):
+    """Null/Empty Input Test """
+    self.assertIsNone(self.rv.enrove(None))
+    self.assertIsNone(self.rv.derove(None))
+    
+    self.assertEqual(self.rv.enrove(""), "")
+    self.assertEqual(self.rv.derove(""), "")
+
+# Test encoding
+  def test_consonants(self):
+        test_cases = {
+               # Lowercase
+            "b": "bob",
+            "c": "coc",
+            "d": "dod",
+            "f": "fof",
+            "g": "gog",
+            "h": "hoh",
+            "j": "joj",
+            "k": "kok",
+            "l": "lol",
+            "m": "mom",
+            "n": "non",
+            "p": "pop",
+            "q": "qoq",
+            "r": "ror",
+            "s": "sos",
+            "t": "tot",
+            "v": "vov",
+            "w": "wow",
+            "x": "xox",
+            "z": "zoz",
+            # Uppercase
+            "B": "BOB",
+            "C": "COC",
+            "D": "DOD",
+            "F": "FOF",
+            "G": "GOG",
+            "H": "HOH",
+            "J": "JOJ",
+            "K": "KOK",
+            "L": "LOL",
+            "M": "MOM",
+            "N": "NON",
+            "P": "POP",
+            "Q": "QOQ",
+            "R": "ROR",
+            "S": "SOS",
+            "T": "TOT",
+            "V": "VOV",
+            "W": "WOW",
+            "X": "XOX",
+            "Z": "ZOZ",
+            # Multiple consonants
+            "br": "bror",
+            "str": "stotror",
+            # Mixed case consonants
+            "B": "BOB",
+            "Kr": "KoKror"
+        }
+        
+        for input_str, expected in test_cases.items():
+            encoded = self.rv.enrove(input_str)
+            self.assertEqual(encoded, expected, 
+                f"Encoding failed for '{input_str}': got '{encoded}', expected '{expected}'")
+            # Test decoded
+            self.assertEqual(self.rv.derove(encoded), input_str)
+
+  def test_vowels_unchanged(self):
+        test_cases = {
+            "a": "a",
+            "e": "e",
+            "i": "i",
+            "o": "o",
+            "u": "u",
+            "y": "y",
+            "A": "A",
+            "E": "E",
+            "I": "I",
+            "O": "O",
+            "U": "U",
+            "Y": "Y",
+        }
+        
+        for input_str, expected in test_cases.items():
+            encoded = self.rv.enrove(input_str)
+            self.assertEqual(encoded, expected, 
+                f"Encoding failed for '{input_str}': got '{encoded}', expected '{expected}'")
+            # Test decoded
+            self.assertEqual(self.rv.derove(encoded), input_str)
+
+  def test_numbers_and_symbols(self):
+        test_cases = {
+            "123": "123",
+            ".!” #€%&/(),.": ".!” #€%&/(),.",
+            "...": "...",
+            ".,:": ".,:"
+        }
+        
+        for input_str, expected in test_cases.items():
+            encoded = self.rv.enrove(input_str)
+            self.assertEqual(encoded, expected, 
+                f"Encoding failed for '{input_str}': got '{encoded}', expected '{expected}'")
+            # Test decoded
+            self.assertEqual(self.rv.derove(encoded), input_str)
+
+  def test_mixed_strings(self):
+        test_cases = {
+            # consonants and vowels
+            "rovar": "rorovovaror",
+            # Mixed case
+            "Hello": "HOHelollolo",
+            # With numbers
+            "test123": "totesostot123",
+            # With symbols
+            "hi!": "hohi!",
+            # Multiple words
+            "my cat": "momy cocatot",
+            # Complex mixed string
+            "Hello, World 123!": "HOHelollolo, WOWororloldod 123!"
+        }
+        
+        for input_str, expected in test_cases.items():
+            encoded = self.rv.enrove(input_str)
+            self.assertEqual(encoded, expected,
+                f"Encoding failed for '{input_str}': got '{encoded}', expected '{expected}'")
+            # Test decoded
+            self.assertEqual(self.rv.derove(encoded), input_str)
+
 
 
 if __name__ == "__main__":

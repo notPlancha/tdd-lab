@@ -10,6 +10,7 @@ coverage = "coverage"
 format = "ruff format"
 lint = "ruff check"
 task2 = "python ./TDD_lab_student/Task2_unittest.py"
+task1 = "python ./TDD_lab_student/Task1_Unittest_rover.py"
 
 [dependencies]
 python = ">=3.13.2,<3.14"
