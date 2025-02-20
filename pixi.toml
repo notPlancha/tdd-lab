@@ -1,15 +1,17 @@
 [project]
-authors = ["notPlancha <andre.plancha@hotmail.com>"]
 channels = ["conda-forge"]
 name = "tdd-lab"
 platforms = ["win-64"]
-version = "0.1.0"
 
 [tasks]
-coverage = "coverage"
 format = "ruff format"
 lint = "ruff check"
 task2 = "python ./TDD_lab_student/Task2_unittest.py"
+coverage = "coverage run -m unittest ./TDD_lab_student/*; coverage report"
+
+[tasks.report]
+cmd = "coverage report"
+depends-on = ["coverage"] # this isnt running if this isnt sucessful, change that
 
 [dependencies]
 python = ">=3.13.2,<3.14"

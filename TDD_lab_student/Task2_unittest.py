@@ -23,7 +23,7 @@ class TestTextProcessor(unittest.TestCase):
   def test_convert_to_lowercase(self):
     self.assertEqual(self.sample_tp.convert_to_lowercase(), "hello! this is a sample text 1. contact me at user@example.com. python is awesome. the python programming language is widely used. #python #nlp check out https://example.com.")
     self.assertEqual(self.empty_tp.convert_to_lowercase(), "")
-    self.assertEqual(TP("\N").convert_to_lowercase(), "\\n")
+    self.assertEqual(TP(r"\N").convert_to_lowercase(), r"\n") # TODO dont know if this if right
     self.assertEqual(TP("123456789"), "123456789")
 
   # 2

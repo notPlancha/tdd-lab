@@ -1,0 +1,6 @@
+# https://coverage.readthedocs.io/en/7.6.12/config.html
+[run]
+branch = True
+omit = */__init__.py
+[html]
+directory = TDD_lab_student
