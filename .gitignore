@@ -1,5 +1,7 @@
 temp/
 
+# Coverage
+TDD_lab_student/coverage_report/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
