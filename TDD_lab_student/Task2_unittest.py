@@ -81,16 +81,22 @@ class TestTextProcessor(unittest.TestCase):
     self.assertAlmostEqual(TP("föregår ett r").avg_word_length(), (7 + 3 + 1) / 3)
     self.assertAlmostEqual(TP("Mom's spaghetti").avg_word_length(), (5+9)/2)
 
-  def test_top_words(self):
+  # 6
+  def test_top_words_null(self):
     self.assertEqual(TP(" ").top_words(), None) # null
+
+  def test_top_words_empty(self):
     self.assertEqual(self.empty_tp.top_words(), None) # empty
 
+  def test_top_words_basic(self):
     # Basic string with words
     self.assertEqual(self.repeting_words.top_words(), "this: 6, test: 4, a: 2")
 
+  def test_top_words_mixed_casing(self):
     # String with words mixed casing
     self.assertEqual(self.repeting_words_mixed_casing.top_words(), "dog: 5, cat: 4, one: 3")
 
+  def test_top_words_mixed_casing_numbers_symbols(self):
     # String with mixed casing, numbers and symbols
     self.assertEqual(self.repeting_words_mixed_casing_numbers_symbols.top_words(), "dog: 5, cat: 4, one: 3")
 
@@ -107,9 +113,13 @@ class TestTextProcessor(unittest.TestCase):
     self.assertEqual(self.sample_tp.identify_sentences(), ["Hello", "This is a sample text 1", "Contact me at user@example.com", "Python is awesome", "The Python programming language is widely used", "#Python #NLP Check out https://example.com."])
 
   # 9
-  def test_remove_special(self):
+  def test_remove_special_null(self):
     self.assertEqual(TP(" ").remove_special(), None) # null
+
+  def test_remove_special_empty(self):
     self.assertEqual(self.empty_tp.remove_special(), None) # empty
+
+  def test_remove_special_basic(self): # basic
     self.assertEqual(self.sample_tp.remove_special(), "Hello This is a sample text 1 Contact me at userexamplecom Python is awesome The Python programming language is widely used Python NLP Check out httpsexamplecom")
 
   
