@@ -31,11 +31,13 @@ class test_string(unittest.TestCase):
 
   # You can continue writing your test cases here based on the assignment description
  
-  def test_null_empty_cases(self):
-    """Null/Empty Input Test """
+  def test_null_cases(self):
+    """Null Input Test """
     self.assertIsNone(self.rv.enrove(None))
     self.assertIsNone(self.rv.derove(None))
-    
+  
+  def test_empty_cases(self):
+    """Empty Input Test """
     self.assertEqual(self.rv.enrove(""), "")
     self.assertEqual(self.rv.derove(""), "")
 
@@ -85,11 +87,11 @@ class test_string(unittest.TestCase):
             "X": "XOX",
             "Z": "ZOZ",
             # Multiple consonants
-            "br": "bror",
-            "str": "stotror",
+            "br": "bobror",
+            "str": "sostotror",
             # Mixed case consonants
             "B": "BOB",
-            "Kr": "KoKror"
+            "Kr": "KOKror"
         }
         
         for input_str, expected in test_cases.items():
@@ -122,7 +124,7 @@ class test_string(unittest.TestCase):
             # Test decoded
             self.assertEqual(self.rv.derove(encoded), input_str)
 
-  def test_numbers_and_symbols(self):
+  def test_numbers_and_symbols_unchanged(self):
         test_cases = {
             "123": "123",
             ".!” #€%&/(),.": ".!” #€%&/(),.",
