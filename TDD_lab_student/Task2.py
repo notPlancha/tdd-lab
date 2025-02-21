@@ -32,20 +32,13 @@ class TextProcessor:
     # https://urlregex.com/
     # https://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml
     # https://github.com/mccutchen/twitter-url-regexen/blob/master/twitter_regex.py
-    w = r"[a-zA-Z0-9]"
-    return re.findall(fr"[{w}\+\.\-]{{2,}}://(www\.)?[\S]+[\w&=#/]", self.text)
-
-  # helper
-  def get_words(self, lower = False) -> list[str]:
-    """Get all words in the document."""
-    return re.findall(r"\p{L}+(?:[\-']?\p{L}+)+", self.text if not lower else self.text.lower())
+    links = re.findall(r"[a-zA-Z0-9\+\.\-]{2,}://(?:www\.)?[\S]+[\w&=#/]", self.text)
+    return links
 
   # 5
   def avg_word_length(self) -> float:
     """Calculate the average word length in the document."""
-    words = self.get_words()
-    # remove ' and - from the words
-    words = [re.sub(r"[\-']+", "", word) for word in words]
+    words = self.text.strip().split(" ")
     return sum(len(word) for word in words) / len(words)
 
   # 6 TODO
@@ -77,8 +70,6 @@ class TextProcessor:
     
     # Format the top n words with their counts
     top_n = sorted_words[:n]
-    if not top_n:
-        return None
         
     result = ", ".join(f"{word}: {count}" for word, count in top_n)
     return result
@@ -87,22 +78,22 @@ class TextProcessor:
   # 7
   def longest_word(self) -> str:
     """Find and return the longest word in the document."""
-    words = self.get_words()
+    words = self.text.split(" ")
     return max(words, key=len)
 
   # 8
   def identify_sentences(self, word="Python") -> list[str]:
     """Find and list all sentences containing the specified word."""
     # Assuming the text is a valid sentence
-    splitted = self.text.split(". ")
+    splitted = re.split(r"[\!\?\.] ", self.text)
     ret = []
     for sentence in splitted:
-      words = self.get_words(lower=True)
+      words = self.text.split(" ")
       if word.lower() in [w.lower() for w in words]:
-        ret.append(sentence + ("." if sentence[-1] != "." else ""))
+        ret.append(sentence)
     return ret
 
-  # 9 TODO
+  # 9 
   def remove_special(self) -> str:
     """Remove all punctuation and special characters from the document."""
   
