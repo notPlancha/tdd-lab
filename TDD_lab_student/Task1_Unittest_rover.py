@@ -25,25 +25,33 @@ class test_string(unittest.TestCase):
     """
     cls.rv = rovar()
 
+
   # Example test case to check lower case rover
   def test_enrove_small(self):
     self.assertEqual(self.rv.enrove("b"), "bob")
 
   # You can continue writing your test cases here based on the assignment description
  
-  def test_null_cases(self):
+  def test_null_cases_enrove(self):
     """Null Input Test """
     self.assertIsNone(self.rv.enrove(None))
+
+  def test_null_cases_derove(self):
+    """Null Input Test """
     self.assertIsNone(self.rv.derove(None))
   
-  def test_empty_cases(self):
+  def test_empty_cases_enrove(self):
     """Empty Input Test """
     self.assertEqual(self.rv.enrove(""), "")
+
+  def test_empty_cases_derove(self):
+    """Empty Input Test """
     self.assertEqual(self.rv.derove(""), "")
 
 # Test encoding
-  def test_consonants(self):
-        test_cases = {
+  def test_consonants_encode_decode(self):
+    """Test encoding and decoding of consonants """
+    test_cases = {
                # Lowercase
             "b": "bob",
             "c": "coc",
@@ -94,15 +102,18 @@ class test_string(unittest.TestCase):
             "Kr": "KOKror"
         }
         
-        for input_str, expected in test_cases.items():
-            encoded = self.rv.enrove(input_str)
+    for input_str, expected in test_cases.items():
+        encoded = self.rv.enrove(input_str)
+        with self.subTest(input_str=input_str):
             self.assertEqual(encoded, expected, 
                 f"Encoding failed for '{input_str}': got '{encoded}', expected '{expected}'")
-            # Test decoded
-            self.assertEqual(self.rv.derove(encoded), input_str)
+                # Test decoded
+            self.assertEqual(self.rv.derove(encoded), input_str,
+                f"Decoding failed for '{input_str}': got '{encoded}', expected '{expected}'")
 
-  def test_vowels_unchanged(self):
-        test_cases = {
+  def test_vowels_unchanged_encode_decode(self):
+    """Test encoding and decoding of vowels """
+    test_cases = {
             "a": "a",
             "e": "e",
             "i": "i",
@@ -117,14 +128,17 @@ class test_string(unittest.TestCase):
             "Y": "Y",
         }
         
-        for input_str, expected in test_cases.items():
+    for input_str, expected in test_cases.items():
             encoded = self.rv.enrove(input_str)
             self.assertEqual(encoded, expected, 
                 f"Encoding failed for '{input_str}': got '{encoded}', expected '{expected}'")
             # Test decoded
-            self.assertEqual(self.rv.derove(encoded), input_str)
+            self.assertEqual(self.rv.derove(encoded), input_str,
+                f"Decoding failed for '{input_str}': got '{encoded}', expected '{expected}'")
 
-  def test_numbers_and_symbols_unchanged(self):
+  def test_numbers_and_symbols_unchanged_encode_decode(self):
+        """Test encoding and decoding of numbers and symbols """
+
         test_cases = {
             "123": "123",
             ".!” #€%&/(),.": ".!” #€%&/(),.",
@@ -137,7 +151,8 @@ class test_string(unittest.TestCase):
             self.assertEqual(encoded, expected, 
                 f"Encoding failed for '{input_str}': got '{encoded}', expected '{expected}'")
             # Test decoded
-            self.assertEqual(self.rv.derove(encoded), input_str)
+            self.assertEqual(self.rv.derove(encoded), input_str,
+                f"Decoding failed for '{input_str}': got '{encoded}', expected '{expected}'")
 
   def test_mixed_strings(self):
         test_cases = {
@@ -160,7 +175,8 @@ class test_string(unittest.TestCase):
             self.assertEqual(encoded, expected,
                 f"Encoding failed for '{input_str}': got '{encoded}', expected '{expected}'")
             # Test decoded
-            self.assertEqual(self.rv.derove(encoded), input_str)
+            self.assertEqual(self.rv.derove(encoded), input_str,
+                f"Decoding failed for '{input_str}': got '{encoded}', expected '{expected}'")
 
 
 
