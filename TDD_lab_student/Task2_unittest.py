@@ -13,6 +13,10 @@ class TestTextProcessor(unittest.TestCase):
   def setUp(self):
     self.sample_tp = TP("Hello! This is a sample text 1. Contact me at user@example.com. Python is awesome. The Python programming language is widely used. #Python #NLP Check out https://example.com.")
     self.empty_tp = TP("")
+    self.repeting_words = TP("This is a test. Testing for my test. I am doing this test for testing my tests. This this this this is a test.")
+    self.repeting_words_mixed_casing = TP("Cat, dog, CAT, one, two, three, Dog, dog, doG, DoG, cat, cat, five, one, one, two")
+    self.repeting_words_mixed_casing_numbers_symbols = TP("Cat, !!, 12, dog, CAT, one, two, three, 136, Dog, dog, doG, DoG, cat, cat, five, one, one, two, !!, !!, !!, ....................................., 11 11 11 11 11")
+
   # 1
   def test_convert_to_lowercase(self):
     self.assertEqual(self.sample_tp.convert_to_lowercase(), "hello! this is a sample text 1. contact me at user@example.com. python is awesome. the python programming language is widely used. #python #nlp check out https://example.com.")
@@ -77,7 +81,18 @@ class TestTextProcessor(unittest.TestCase):
 
   # 6 TODO
   def test_top_words(self):
-    pass
+    self.assertEqual(TP(" ").top_words(), None) # null
+    self.assertEqual(self.empty_tp.top_words(), None) # empty
+
+    # Basic string with words
+    self.assertEqual(self.repeting_words.top_words(), "this: 6, test: 4, a: 2")
+
+    # String with words mixed casing
+    self.assertEqual(self.repeting_words_mixed_casing.top_words(), "dog: 5, cat: 4, one: 3")
+
+    # String with mixed casing, numbers and symbols
+    self.assertEqual(self.repeting_words_mixed_casing_numbers_symbols.top_words(), "dog: 5, cat: 4, one: 3")
+
   
   # 7
   def test_longest_word(self):
@@ -91,7 +106,10 @@ class TestTextProcessor(unittest.TestCase):
 
   # 9 TODO
   def test_remove_special(self):
-    pass
+    self.assertEqual(TP(" ").remove_special(), None) # null
+    self.assertEqual(self.empty_tp.remove_special(), None) # empty
+    self.assertEqual(self.sample_tp.remove_special(), "Hello This is a sample text 1 Contact me at userexamplecom Python is awesome The Python programming language is widely used Python NLP Check out httpsexamplecom")
+
   
   # 10
   def test_num_to_words(self):

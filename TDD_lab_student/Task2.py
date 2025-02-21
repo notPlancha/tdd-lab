@@ -1,3 +1,4 @@
+import string
 import re
 from collections import Counter
 
@@ -50,7 +51,38 @@ class TextProcessor:
   # 6 TODO
   def top_words(self, n: int = 3) -> list[str]:
     """Find and list the top n most frequent words in the document."""
-    pass
+
+    if not self.text or self.text.isspace():
+        return None
+    
+    # Convert to lowercase and skip numbers/special chars
+    cleaned_text = ""
+    for char in self.text:        
+        if char.isalpha():
+            cleaned_text += char.lower()
+        elif char.isspace():
+            cleaned_text += char
+    
+    # Split into words and count frequencies
+    words = cleaned_text.split()
+    word_count = {}
+    for word in words:
+        if word in word_count:
+            word_count[word] += 1
+        else:
+            word_count[word] = 1
+            
+    # Sort words by frequency (highest to lowest)
+    sorted_words = sorted(word_count.items(), key=lambda x: (-x[1], x[0]))
+    
+    # Format the top n words with their counts
+    top_n = sorted_words[:n]
+    if not top_n:
+        return None
+        
+    result = ", ".join(f"{word}: {count}" for word, count in top_n)
+    return result
+
 
   # 7
   def longest_word(self) -> str:
@@ -73,7 +105,16 @@ class TextProcessor:
   # 9 TODO
   def remove_special(self) -> str:
     """Remove all punctuation and special characters from the document."""
-    pass
+  
+    if not self.text or self.text.isspace():
+        return None
+    
+    cleaned_text = ""
+    for char in self.text:
+        if char not in string.punctuation:
+            cleaned_text += char
+
+    return cleaned_text
 
   # 10
   def num_to_words(self) -> str:
