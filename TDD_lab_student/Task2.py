@@ -7,7 +7,7 @@ class TextProcessor:
   def __init__(self, text: str):
     # text isn't expecting any other type
     self.text = text
-    
+
   # 1
   def convert_to_lowercase(self) -> str:
     """Convert all words to lowercase."""
@@ -46,34 +46,33 @@ class TextProcessor:
     """Find and list the top n most frequent words in the document."""
 
     if not self.text or self.text.isspace():
-        return None
-    
+      return None
+
     # Convert to lowercase and skip numbers/special chars
     cleaned_text = ""
-    for char in self.text:        
-        if char.isalpha():
-            cleaned_text += char.lower()
-        elif char.isspace():
-            cleaned_text += char
-    
+    for char in self.text:
+      if char.isalpha():
+        cleaned_text += char.lower()
+      elif char.isspace():
+        cleaned_text += char
+
     # Split into words and count frequencies
     words = cleaned_text.split()
     word_count = {}
     for word in words:
-        if word in word_count:
-            word_count[word] += 1
-        else:
-            word_count[word] = 1
-            
+      if word in word_count:
+        word_count[word] += 1
+      else:
+        word_count[word] = 1
+
     # Sort words by frequency (highest to lowest)
     sorted_words = sorted(word_count.items(), key=lambda x: (-x[1], x[0]))
-    
+
     # Format the top n words with their counts
     top_n = sorted_words[:n]
-        
+
     result = ", ".join(f"{word}: {count}" for word, count in top_n)
     return result
-
 
   # 7
   def longest_word(self) -> str:
@@ -93,24 +92,24 @@ class TextProcessor:
         ret.append(sentence)
     return ret
 
-  # 9 
+  # 9
   def remove_special(self) -> str:
     """Remove all punctuation and special characters from the document."""
-  
+
     if not self.text or self.text.isspace():
-        return None
-    
+      return None
+
     cleaned_text = ""
     for char in self.text:
-        if char not in string.punctuation:
-            cleaned_text += char
+      if char not in string.punctuation:
+        cleaned_text += char
 
     return cleaned_text
 
   # 10
   def num_to_words(self) -> str:
     """Convert numerical figures between 1-10 (inclusive) within the text into their respective written-out forms (for example, "This is sample text 1, 2, 3" shall become "This is sample text one, two, three")."""
-    subs =  {
+    subs = {
       "10": "ten",
       "9": "nine",
       "8": "eight",
@@ -120,7 +119,7 @@ class TextProcessor:
       "4": "four",
       "3": "three",
       "2": "two",
-      "1": "one"
+      "1": "one",
     }
     text = self.text
     for k, v in subs.items():
