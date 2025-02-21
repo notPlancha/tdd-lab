@@ -6,7 +6,7 @@ class TextProcessor:
   def __init__(self, text: str):
     # text isn't expecting any other type
     self.text = text
-
+    
   # 1
   def convert_to_lowercase(self) -> str:
     """Convert all words to lowercase."""
@@ -21,7 +21,7 @@ class TextProcessor:
   # 3
   def count_hashtags(self) -> int:
     """Find and count all unique hashtags (words or phrases starting with #) used in the document."""
-    l = re.findall(r"\#[\w_]+", self.text.lower())
+    l = re.findall(r"\#[\w]+", self.text.lower())
     return len(set(l))
 
   # 4
@@ -34,11 +34,18 @@ class TextProcessor:
     w = r"[a-zA-Z0-9]"
     return re.findall(fr"[{w}\+\.\-]{{2,}}://(www\.)?[\S]+[\w&=#/]", self.text)
 
+  # helper
+  def get_words(self, lower = False) -> list[str]:
+    """Get all words in the document."""
+    return re.findall(r"\p{L}+(?:[\-']?\p{L}+)+", self.text if not lower else self.text.lower())
+
   # 5
   def avg_word_length(self) -> float:
     """Calculate the average word length in the document."""
-    # we can split by spaces but that doesn't account for punctuation
-    pass
+    words = self.get_words()
+    # remove ' and - from the words
+    words = [re.sub(r"[\-']+", "", word) for word in words]
+    return sum(len(word) for word in words) / len(words)
 
   # 6 TODO
   def top_words(self, n: int = 3) -> list[str]:
@@ -48,12 +55,20 @@ class TextProcessor:
   # 7
   def longest_word(self) -> str:
     """Find and return the longest word in the document."""
-    pass
+    words = self.get_words()
+    return max(words, key=len)
 
   # 8
   def identify_sentences(self, word="Python") -> list[str]:
     """Find and list all sentences containing the specified word."""
-    pass
+    # Assuming the text is a valid sentence
+    splitted = self.text.split(". ")
+    ret = []
+    for sentence in splitted:
+      words = self.get_words(lower=True)
+      if word.lower() in [w.lower() for w in words]:
+        ret.append(sentence + ("." if sentence[-1] != "." else ""))
+    return ret
 
   # 9 TODO
   def remove_special(self) -> str:
@@ -63,4 +78,19 @@ class TextProcessor:
   # 10
   def num_to_words(self) -> str:
     """Convert numerical figures between 1-10 (inclusive) within the text into their respective written-out forms (for example, "This is sample text 1, 2, 3" shall become "This is sample text one, two, three")."""
-    pass
+    subs =  {
+      "10": "ten",
+      "9": "nine",
+      "8": "eight",
+      "7": "seven",
+      "6": "six",
+      "5": "five",
+      "4": "four",
+      "3": "three",
+      "2": "two",
+      "1": "one"
+    }
+    text = self.text
+    for k, v in subs.items():
+      text = text.replace(k, v)
+    return text

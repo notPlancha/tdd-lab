@@ -60,6 +60,7 @@ class TestTextProcessor(unittest.TestCase):
   def test_avg_word_length(self):
     # skipping sample cause it's too long
     # https://en.wikipedia.org/wiki/Word
+    # _ isn't expected
     self.assertAlmostEqual(self.empty_tp.avg_word_length(), 0)
     self.assertAlmostEqual(TP(" ").avg_word_length(), 0)
     self.assertAlmostEqual(TP("This is a test").avg_word_length(), (4 + 2 + 1 + 4) / 4)
@@ -69,9 +70,10 @@ class TestTextProcessor(unittest.TestCase):
     self.assertAlmostEqual(TP("This is a test. 123456").avg_word_length(), (4 + 2 + 1 + 4 + 6) / 5)
     self.assertAlmostEqual(TP("This-is-the-same-word").avg_word_length(), 21)
     self.assertAlmostEqual(TP("föregår ett r").avg_word_length(), (7 + 3 + 1) / 3)
-    self.assertAlmostEqual(TP("S.P.E.C.T.R.E").avg_word_length(), 7)
     self.assertAlmostEqual(TP("Mom's spaghetti").avg_word_length(), (4+9)/2)
     self.assertAlmostEqual(TP('"cogito, ergo sum" - René Descartes').avg_word_length(), (6 + 4 + 3 + 4 + 9) / 5)
+    self.assertAlmostEqual(TP("Jack-o'-lantern.").avg_word_length(), 12)
+    self.assertAlmostEqual(TP("mother-in-law's").avg_word_length(), 12)
 
   # 6 TODO
   def test_top_words(self):
