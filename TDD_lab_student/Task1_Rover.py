@@ -1,6 +1,6 @@
 class rovar(object):
-  _LOWER_CONSTANTS = "bcdfhjklmnpqrstvwxz"
-  _UPPER_CONSTANTS = "BCFGHJKLMNPQRSTVWXZ"
+  _LOWER_CONSTANTS = "bcdfghjklmnpqrstvwxz"
+  _UPPER_CONSTANTS = "BCFGHJKLDMNPQRSTVWXZ"
 
   def enrove(self, normal: str) -> str:
     """Encode the string in rovarspraket.
