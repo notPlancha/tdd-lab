@@ -85,10 +85,10 @@ class TextProcessor:
   def identify_sentences(self, word="Python") -> list[str]:
     """Find and list all sentences containing the specified word."""
     # Assuming the text is a valid sentence
-    splitted = re.split(r"[\!\?\.] ", self.text)
+    sentences = re.split(r"[\!\?\.] ", self.text)
     ret = []
-    for sentence in splitted:
-      words = self.text.split(" ")
+    for sentence in sentences:
+      words = sentence.split(" ")
       if word.lower() in [w.lower() for w in words]:
         ret.append(sentence)
     return ret

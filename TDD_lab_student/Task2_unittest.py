@@ -104,7 +104,7 @@ class TestTextProcessor(unittest.TestCase):
   # 8
   def test_identify_sentences(self):
     # Hello! This is a sample text 1. Contact me at user@example.com. Python is awesome. The Python programming language is widely used. #Python #NLP Check out https://example.com.
-    self.assertEqual(self.sample_tp.identify_sentences(), ["Hello", "This is a sample text 1", "Contact me at user@example.com", "Python is awesome", "The Python programming language is widely used", "#Python #NLP Check out https://example.com."])
+    self.assertEqual(self.sample_tp.identify_sentences(), ["Python is awesome", "The Python programming language is widely used"])
 
   # 9
   def test_remove_special(self):
